@@ -16,16 +16,17 @@
         <div class="container">
             <form class="form-inline">
                 <div class="input-group">
-                    <select class="custom-select" id="cidade" aria-label="Example select with button addon">
+                    <div id="acoesGrafico"></div>
+                    <select class="form-select" id="cidade" aria-label="Example select with button addon">
                         {% for i in numeros %}
                             <option value="{{ numeros[i] }}">{{ i }}</option>
                         {% endfor %}
                     </select>
                     &nbsp;
                     <div class="input-group-append">
-                      <button class="btn btn-secondary actBuscarDados" type="button">Buscar</button>
+                      <button class="btn btn-warning actBuscarDados" type="button">Buscar</button>
                     </div>
-                  </div>
+                </div>
             </form>
         </div>
     </nav>
@@ -49,6 +50,7 @@
                 url: "/cidade",
                 data: {cidade: cidade}
             }).done(function(resul){
+                console.log(resul)
                 if(resul) {
 
                     //Grafico
@@ -87,7 +89,7 @@
                             plugins: {
                                 title: {
                                     display: true,
-                                    text: 'Previsão do Tempo - Consulta'
+                                    text: 'Previsão do Tempo - ' + resul[3]
                                 }
                             },
                             scales: {
@@ -106,6 +108,13 @@
                         },
                     });
                     //Fim Grafico
+
+                    var link_img = myChart.toBase64Image();
+                    var nome_img = "cidade_"+cidade+".png"
+
+                    var acoes = document.getElementById("acoesGrafico")
+                    acoes.innerHTML = '<a href="'+link_img+'" download="'+nome_img+'"><button class="btn btn-success" type="button">Baixar imagem</button></a>&nbsp;'
+
                 }
             });
 

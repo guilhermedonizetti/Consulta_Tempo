@@ -1,9 +1,20 @@
 numeros = {
-    "SÃO PAULO": "455827",
-    "RIO DE JANEIRO": "455825",
-    "CRUZEIRO": "457097",
-    "QUELUZ": "457898",
-    "CAMPOS DO JORDÃO": "456940",
-    "UBATUBA": "456586",
-    "LORENA": "455969"
+    "ANGRA DOS REIS": "456038", #RJ
+    "BELO HORIZONTE": "455821", #MG
+    "CAMPOS DO JORDÃO": "456940", #SP
+    "CASCAVEL": "455853", #PR
+    "CORUMBÁ": "455947", #MS
+    "CRUZEIRO": "457097", #SP
+    "IMPERATRIZ": "455868", #MA
+    "LORENA": "455969", #SP
+    "MANAUS": "455833", #AM
+    "PALMAS": "457721", #TO
+    "PIQUETE": "456415", #SP
+    "QUELUZ": "457898", #SP
+    "RESENDE": "457919", #RJ
+    "RIO DE JANEIRO": "455825", #RJ
+    "SÃO JOSÉ DOS CAMPOS": "455912", #SP
+    "SÃO LOURENÇO": "461141", #MG
+    "SÃO PAULO": "455827", #SP
+    "UBATUBA": "456586" #SP
 }

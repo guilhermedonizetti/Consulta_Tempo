@@ -2,7 +2,7 @@ from requests import get
 from json import loads
 
 def buscar_dados(codigo):
-    x = get("https://api.hgbrasil.com/weather?woeid={}&key=e4af2726".format(codigo))
+    x = get("https://api.hgbrasil.com/weather?woeid={}&key=CHAVE".format(codigo))
     x = x.content.decode("utf-8")
     x = loads(x)
 
@@ -10,10 +10,18 @@ def buscar_dados(codigo):
     minima = []
     maxima = []
 
-    for i in x['results']['forecast']:
-        dias.append(i['date'])
-        minima.append(i['min'])
-        maxima.append(i['max'])
+    for i in range(len(x['results']['forecast'])):
+        if i == 0:
+            dias.append('Hoje ({})'.format(x['results']['forecast'][i]['date']))
+        elif i == 1:
+            dias.append('Amanhã ({})'.format(x['results']['forecast'][i]['date']))
+        else:
+            dias.append('{} ({})'.format(x['results']['forecast'][i]['weekday'], x['results']['forecast'][i]['date']))
+
+        minima.append(x['results']['forecast'][i]['min'])
+        maxima.append(x['results']['forecast'][i]['max'])
+    
+    cidade = x['results']['city']
     
     menor_temperatura = min(minima)
     maior_temperatura = max(maxima)
@@ -23,7 +31,7 @@ def buscar_dados(codigo):
     minima.append(menor_temperatura-5)
     minima.append(maior_temperatura+10)
 
-    return [dias, minima, maxima]
+    return [dias, minima, maxima, cidade]
 
 
 #ESTRUTURA DO RETORNO DA API
