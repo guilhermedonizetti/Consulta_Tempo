@@ -30,17 +30,19 @@
         </div>
     </nav>
 
-	<div class="container">
+	<div class="container" id="areaGrafico">
         <canvas id="myChart" width="300" height="150"></canvas>
 	</div>
 
     <!-- SCRIPTS -->
     <script>
         $(".actBuscarDados").on('click', function(){
+
             var cidade = $("#cidade").val();
-            var dias = []
-            var maxima = []
-            var minima = []
+            
+            $("#myChart").remove()
+            var area = document.getElementById('areaGrafico')
+            area.innerHTML = '<canvas id="myChart" width="300" height="150"></canvas>'
 
             $.ajax({
                 type: "POST",
@@ -48,25 +50,20 @@
                 data: {cidade: cidade}
             }).done(function(resul){
                 if(resul) {
-                    for(var i = 0; i < resul.length; i++) {
-                        maxima.push(resul[i]['max'])
-                        minima.push(resul[i]['min'])
-                        dias.push(''+ resul[i]['date'] +'')
-                    }
 
                     //Grafico
                     const ctx = document.getElementById('myChart').getContext('2d');
                     const myChart = new Chart(ctx, {
                         type: 'line',
                         data: {
-                            labels: dias,
+                            labels: resul[0],
                             datasets: [
                                 {
                                     label: 'Máxima',
                                     yAxisID: 'A',
                                     borderColor: '#ffbaa2',
                                     backgroundColor: 'red',
-                                    data: maxima,
+                                    data: resul[2],
                                     fill: false
                                 },
                                 {
@@ -74,7 +71,7 @@
                                     yAxisID: 'B',
                                     borderColor: '#91cf96',
                                     backgroundColor: 'green',
-                                    data: minima,
+                                    data: resul[1],
                                     fill: false
                                 }
                             ]
@@ -90,7 +87,7 @@
                             plugins: {
                                 title: {
                                     display: true,
-                                    text: 'Chart.js Line Chart - Multi Axis'
+                                    text: 'Previsão do Tempo - Consulta'
                                 }
                             },
                             scales: {
@@ -102,14 +99,16 @@
                                 B: {
                                     type: 'linear',
                                     display: false,
-                                    position: 'left',
+                                    position: 'right',
                                 }
-                            }
+                            },
+                            animation: false,
                         },
                     });
                     //Fim Grafico
                 }
             });
+
         });
     </script>
     <!-- FIM SCRIPT -->

@@ -2,13 +2,28 @@ from requests import get
 from json import loads
 
 def buscar_dados(codigo):
-    x = get("https://api.hgbrasil.com/weather?woeid={}&key=chave".format(codigo))
+    x = get("https://api.hgbrasil.com/weather?woeid={}&key=e4af2726".format(codigo))
     x = x.content.decode("utf-8")
     x = loads(x)
 
+    dias = []
+    minima = []
+    maxima = []
 
+    for i in x['results']['forecast']:
+        dias.append(i['date'])
+        minima.append(i['min'])
+        maxima.append(i['max'])
+    
+    menor_temperatura = min(minima)
+    maior_temperatura = max(maxima)
 
-    return x['results']['forecast']
+    maxima.append(menor_temperatura-5)
+    maxima.append(maior_temperatura+10)
+    minima.append(menor_temperatura-5)
+    minima.append(maior_temperatura+10)
+
+    return [dias, minima, maxima]
 
 
 #ESTRUTURA DO RETORNO DA API
