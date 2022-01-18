@@ -32,63 +32,85 @@
 
 	<div class="container">
         <canvas id="myChart" width="300" height="150"></canvas>
-        <script>
-            var nome = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Alls']
-            const ctx = document.getElementById('myChart').getContext('2d');
-            const myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: nome,
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3, 44],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(255, 139, 84, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(255, 139, 84, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    animation: false
-                }
-            });
-        </script>
 	</div>
 
     <!-- SCRIPTS -->
     <script>
         $(".actBuscarDados").on('click', function(){
             var cidade = $("#cidade").val();
+            var dias = []
+            var maxima = []
+            var minima = []
 
             $.ajax({
                 type: "POST",
                 url: "/cidade",
                 data: {cidade: cidade}
             }).done(function(resul){
-                console.log(resul)
-            });
+                if(resul) {
+                    for(var i = 0; i < resul.length; i++) {
+                        maxima.push(resul[i]['max'])
+                        minima.push(resul[i]['min'])
+                        dias.push(''+ resul[i]['date'] +'')
+                    }
 
-        })
+                    //Grafico
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    const myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: dias,
+                            datasets: [
+                                {
+                                    label: 'Máxima',
+                                    yAxisID: 'A',
+                                    borderColor: '#ffbaa2',
+                                    backgroundColor: 'red',
+                                    data: maxima,
+                                    fill: false
+                                },
+                                {
+                                    label: 'Mínima',
+                                    yAxisID: 'B',
+                                    borderColor: '#91cf96',
+                                    backgroundColor: 'green',
+                                    data: minima,
+                                    fill: false
+                                }
+                            ]
+                        },
+
+                        options: {
+                            responsive: true,
+                            interaction: {
+                                mode: 'index',
+                                intersect: false,
+                            },
+                            stacked: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Chart.js Line Chart - Multi Axis'
+                                }
+                            },
+                            scales: {
+                                A: {
+                                    type: 'linear',
+                                    display: true,
+                                    position: 'left',
+                                },
+                                B: {
+                                    type: 'linear',
+                                    display: false,
+                                    position: 'left',
+                                }
+                            }
+                        },
+                    });
+                    //Fim Grafico
+                }
+            });
+        });
     </script>
     <!-- FIM SCRIPT -->
 
