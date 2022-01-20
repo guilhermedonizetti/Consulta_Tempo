@@ -15,7 +15,7 @@
 <br>
 
 <p align="center">
-  <img src="https://github.com/guilhermedonizetti/Consulta_Tempo/blob/master/images/prev_tempo.png" width="800" height="410">
+  <img src="https://guilhermedonizetti.herokuapp.com/static/images/previsao_tempo/img3.gif">
 </p>
 
 <b>Ferramentas:</b> para gerar o gráfico está sendo usado a ferramenta Chart.JS e a API de consulta - por enquanto - é HG Brasil, mas pode ser alterada. A base é feita com Flask, microframework Python e outras tecnologias Web: JavaScript e HTML.
